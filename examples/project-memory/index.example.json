@@ -1,0 +1,14 @@
+{
+  "projects": [
+    {
+      "slug": "example-project",
+      "name": "Example Project",
+      "category": "personal",
+      "desc": "Sanitized project-memory example",
+      "tags": ["example", "bridge"],
+      "sessions": ["personal/example-project/sessions/2026-01-01-initial-setup.md"],
+      "folder": "personal/example-project",
+      "updated": "2026-01-01"
+    }
+  ]
+}

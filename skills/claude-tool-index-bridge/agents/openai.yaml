@@ -1,0 +1,4 @@
+interface:
+  display_name: "Claude Tool Index Bridge"
+  short_description: "Reuse Claude skills and memory from Codex"
+  default_prompt: "Use $claude-tool-index-bridge to resolve and run a local Claude Code capability from Codex."
