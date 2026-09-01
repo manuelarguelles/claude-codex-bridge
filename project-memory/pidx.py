@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""pidx — índice de proyectos con sesiones archivadas (personales y de Apex).
+"""pidx — índice de proyectos con sesiones archivadas (personales y de trabajo).
 
 Fuente de verdad: `index.json` en el data home. `INDEX.md` se regenera desde ahí
 (vista humana). Determinista: gestiona índice, paths y búsqueda. NO resume sesiones

@@ -1,6 +1,6 @@
 ---
 name: indexar-proyecto
-description: Archiva la sesión actual en su proyecto (personal o Apex) y lo registra en el índice maestro de proyectos. Usar cuando el usuario diga "indexar proyecto", "guardar la sesión", "archivar este proyecto", "/indexar-proyecto", o al cerrar un bloque de trabajo que conviene poder retomar después.
+description: Archiva la sesión actual en su proyecto (personal o de trabajo) y lo registra en el índice maestro de proyectos. Usar cuando el usuario diga "indexar proyecto", "guardar la sesión", "archivar este proyecto", "/indexar-proyecto", o al cerrar un bloque de trabajo que conviene poder retomar después.
 ---
 
 # Indexar proyecto (archivar sesión + actualizar índice)
@@ -12,9 +12,9 @@ Guarda un resumen recuperable de la sesión actual en la carpeta indicada por `P
 ## Pasos
 
 1. **Identificá el proyecto** (nombre, slug kebab-case, categoría, descripción de 1 línea, tags):
-   - **Categoría:** `apex` si el trabajo es del cliente APEX DIGITAL (cwd bajo `.../APEX DIGITAL/REPOSITORIOS`, repos `ApexDigitalM5/*`, Databricks, etc.); `personal` en otro caso (vende-ia, qhatudata, analizodatos, demos, etc.). Si dudás, preguntá.
-   - **Slug:** estable y reusable (ej. `data-contract`, `vende-ia`). Si el proyecto ya existe en el índice, reusá su slug (corré `pidx.py list` para ver).
-   - **Programa vs iniciativa:** si el trabajo es una **iniciativa** de un programa mayor (ej. Agente N1 → v3, dashboards, evaluador), usá la pista `programa:iniciativa` (ej. `agente-n1:v3-mejoras`). El programa guarda el **contexto compartido** (repos, IDs, tablas, owners, glosario) una sola vez en su `PROGRAM.md`; la iniciativa guarda su objetivo/spec/estado. Si el proyecto es standalone, usá el slug plano como hasta ahora.
+   - **Categoría:** `work` si el trabajo pertenece a un cliente o empleador (por cwd, organización de GitHub o plataforma de datos); `personal` en otro caso (productos propios, demos, experimentos). Si dudás, preguntá.
+   - **Slug:** estable y reusable (ej. `data-contract`, `landing-site`). Si el proyecto ya existe en el índice, reusá su slug (corré `pidx.py list` para ver).
+   - **Programa vs iniciativa:** si el trabajo es una **iniciativa** de un programa mayor (ej. Plataforma X → v3, dashboards, evaluador), usá la pista `programa:iniciativa` (ej. `plataforma-x:v3-mejoras`). El programa guarda el **contexto compartido** (repos, IDs, tablas, owners, glosario) una sola vez en su `PROGRAM.md`; la iniciativa guarda su objetivo/spec/estado. Si el proyecto es standalone, usá el slug plano como hasta ahora.
    - Argumentos del usuario (`/indexar-proyecto <pista>`) pueden fijar nombre/categoría.
 
 2. **Resolvé la carpeta:** `python "$HOME/clawd/projects-index/pidx.py" path <categoria> <slug-o-programa:iniciativa>` → devuelve la carpeta (la crea con `sessions/`). Para una iniciativa, la carpeta queda anidada en `<categoria>/<programa>/<iniciativa>/`.
@@ -33,13 +33,13 @@ Guarda un resumen recuperable de la sesión actual en la carpeta indicada por `P
    ```
    # Iniciativa de un programa:
    python "$HOME/clawd/projects-index/pidx.py" upsert \
-     --name "<Nombre>" --category <apex|personal> --slug <iniciativa> \
+     --name "<Nombre>" --category <work|personal> --slug <iniciativa> \
      --program <programa> --status "<en curso|prod|cerrado|...>" \
      --desc "<una línea>" --tags <a,b,c> --session "<ruta del .md de sesión>"
 
    # Proyecto standalone (como hasta ahora):
    python "$HOME/clawd/projects-index/pidx.py" upsert \
-     --name "<Nombre>" --category <apex|personal> --slug <slug> \
+     --name "<Nombre>" --category <work|personal> --slug <slug> \
      --desc "<una línea>" --tags <a,b,c> --session "<ruta del .md de sesión>"
    ```
    `upsert --program` auto-crea el **stub del programa** si no existe y regenera la tabla de iniciativas del `PROGRAM.md`. Si el programa es nuevo, después completá a mano el **Contexto compartido** del `PROGRAM.md` (repos, IDs, tablas, owners, glosario) — es la parte DRY que las iniciativas referencian.
@@ -82,6 +82,6 @@ versión) es una opinión, no un hallazgo.** Anclalo o no lo guardes.
 Antes de escribir, buscá si el hallazgo ya existe en `PROJECT.md`, sesiones o memoria local. Si ya está, **enriquecé** el registro existente en vez de duplicarlo.
 
 ## Notas
-- No reemplaza la auto-memoria (`~/.claude/.../memory/`): esto es archivo explícito de sesiones + índice transversal personal+Apex, fácil de recuperar con `/recuperar-proyecto`.
+- No reemplaza la auto-memoria (`~/.claude/.../memory/`): esto es archivo explícito de sesiones + índice transversal personal+trabajo, fácil de recuperar con `/recuperar-proyecto`.
 - Idempotente: re-indexar el mismo proyecto agrega una sesión nueva y actualiza `updated`/desc/tags; no pisa sesiones anteriores.
 - No edites `INDEX.md`/`index.json` a mano — siempre vía `pidx.py upsert`.
